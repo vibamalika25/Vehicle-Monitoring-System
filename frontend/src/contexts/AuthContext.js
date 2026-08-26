@@ -4,6 +4,9 @@ import axios from 'axios';
 // Update the header text
 const HEADER_TEXT = "Sri Vinayaga Earth Movers";
 
+// ✅ ADD THIS - Get the API URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
@@ -23,7 +26,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, role) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/login', {
+      // ✅ CHANGED: Use API_URL variable
+      const response = await axios.post(`${API_URL}/api/login`, {
         email,
         password,
         role
@@ -47,7 +51,8 @@ export const AuthProvider = ({ children }) => {
 
   const forgotPassword = async (email) => {
     try {
-      await axios.post('http://localhost:5000/api/forgot-password', { email });
+      // ✅ CHANGED: Use API_URL variable
+      await axios.post(`${API_URL}/api/forgot-password`, { email });
       return { success: true };
     } catch (error) {
       return { success: false, message: error.response?.data?.message || 'Failed to send reset email' };
@@ -56,7 +61,8 @@ export const AuthProvider = ({ children }) => {
 
   const resetPassword = async (token, newPassword) => {
     try {
-      await axios.post('http://localhost:5000/api/reset-password', { token, newPassword });
+      // ✅ CHANGED: Use API_URL variable
+      await axios.post(`${API_URL}/api/reset-password`, { token, newPassword });
       return { success: true };
     } catch (error) {
       return { success: false, message: error.response?.data?.message || 'Failed to reset password' };
@@ -65,7 +71,8 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password, role) => {
     try {
-      await axios.post('http://localhost:5000/api/register', {
+      // ✅ CHANGED: Use API_URL variable
+      await axios.post(`${API_URL}/api/register`, {
         name,
         email,
         password,
